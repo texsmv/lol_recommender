@@ -26,6 +26,7 @@ class RBTree {
 public:
 	Node<K, D> * root;
 	Node<K, D> * TNULL;
+	int size = 0;
 
 	// initializes the nodes with appropirate values
 	// all the pointers are set to point to the null pointer
@@ -413,6 +414,8 @@ public:
 		node->right = TNULL;
 		node->color = true; // new Node<K, D> must be red
 
+		size++;
+
 		Node<K, D> * y = nullptr;
 		Node<K, D> * x = this->root;
 
@@ -457,6 +460,7 @@ public:
 	// delete the node from the tree
 	__host__ __device__ void deleteNode(K key) {
 		deleteNodeHelper(this->root, key);
+		size--; // need to verify if node exists
 	}
 
 	// print the tree structure on the screen

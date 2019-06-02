@@ -48,6 +48,10 @@ float * d_averages;
 
 int main(int argc, char const *argv[]) {
 
+  vector<int> as = {1,2,3,4};
+  vector<int> bs = {2,1,3,4};
+  cout<<(as>bs)<<endl;
+
 
   n_ratings_27 = 27753444;
   n_users_27 = 283228;
@@ -143,7 +147,7 @@ int main(int argc, char const *argv[]) {
 
   create_maps_device(d_map_users, d_values, d_row_ind, d_col_ind, d_ind_users, d_row_size, max_users);
 
-  knns_cosine(d_map_users, d_row_size, 1, max_users);
+  knns_cosine(d_map_users, d_row_size, 1, max_users, 5);
 
 
 
