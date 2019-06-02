@@ -143,11 +143,7 @@ int main(int argc, char const *argv[]) {
 
   create_maps_device(d_map_users, d_values, d_row_ind, d_col_ind, d_ind_users, d_row_size, max_users);
 
-
-
-
-
-
+  knns_cosine(d_map_users, d_row_size, 1, max_users);
 
 
 
