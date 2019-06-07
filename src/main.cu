@@ -159,7 +159,7 @@ int main(int argc, char const *argv[]) {
   cuda_H2D<int>(item_row_size, d_item_row_size, max_movies);
 
 
-
+	/*
   size_t* t = new size_t();
   cudaDeviceGetLimit( t, cudaLimitMallocHeapSize);
   cout<<*t<<endl;
@@ -167,6 +167,7 @@ int main(int argc, char const *argv[]) {
   CHECK(cudaDeviceSynchronize());
   cudaDeviceGetLimit( t, cudaLimitMallocHeapSize);
   cout<<*t<<endl;
+	*/
 
   create_maps_device(d_map_users, d_values, d_row_ind, d_col_ind, d_ind_users, d_row_size, max_users);
 
