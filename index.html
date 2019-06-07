@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+
+  <body>
+
+
+        <nav style="background-color:black">
+          <div class="nav-wrapper">
+            <a href="#" class="brand-logo center">League of Legends</a>
+            <!-- <img src="https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwii-Z-vndbiAhXPpFkKHdH6DZwQjRx6BAgBEAU&url=%2Furl%3Fsa%3Di%26source%3Dimages%26cd%3D%26ved%3D%26url%3Dhttps%253A%252F%252Fwww.malavida.com%252Fes%252Fsoft%252Fleague-of-legends%252F%26psig%3DAOvVaw2FCgzzK99uKKw9so25AHTx%26ust%3D1559955532260734&psig=AOvVaw2FCgzzK99uKKw9so25AHTx&ust=1559955532260734"> -->
+          </div>
+        </nav>
+        <!-- end barra-->
+
+      
+        <div class="row container" style="padding-top:10px">
+          <ul class="tabs">
+            <li class="tab col"><a class="active" href="#knn">Heroes</a></li>
+            <li class="tab col"><a href="#item">Heroes 2</a></li>
+          </ul>
+        </div>
+
+    <div id="app">
+        <div id="knn" >
+          
+          <div class="container">
+            
+            <div class="row" style="padding-top:30px">
+                <form class="col" onsubmit="submitForm(event, this)">
+                    <div class="row">
+                      
+                      <div class="input-field col l3">
+                        <select name="h1" required>   
+                            <option value="">Elija Héroe </option> 
+                          <option value="0" >Gnar</option>
+                          <option value="1">Gragas</option>
+                          <option value="2">Ekko</option>
+                          <option value="3">Vayne</option>
+                          <option value="4">lulu</option>
+                          <option value="5">Jarvan</option>
+                          <option value="6">Maokai</option>
+                        </select>
+                        <label>Seleccione Heroe</label>
+                      </div>
+                      <div class="input-field col l1">
+                          <input  id="first_name"  class="validate" type="number">
+                          <!-- <label for="first_name">NVecinos</label> -->
+                      </div>
+
+                    </div>
+
+                    <div class="row">
+                      
+                      <div class="input-field col l3">
+                        <select name="h2" required>
+                          <!-- <option value="" disabledd>Elija heroe: </option> -->
+                          <option value="0" selected>Gnar</option>
+                          <option value="1">Gragas</option>
+                          <option value="2">Ekko</option>
+                          <option value="3">Vayne</option>
+                          <option value="4">lulu</option>
+                          <option value="5">Jarvan</option>
+                          <option value="6">Maokai</option>
+                        </select>
+                        <label>Seleccione Heroe</label>
+                      </div>
+                      <div></div>
+                    </div>
+
+                    <div class="row">
+                      
+                      <div class="input-field col l3">
+                        <select name="h3" required>
+                          <!-- <option value="" disabledd>Elija heroe: </option> -->
+                          <option value="0" selected>Gnar</option>
+                          <option value="1">Gragas</option>
+                          <option value="2">Ekko</option>
+                          <option value="3">Vayne</option>
+                          <option value="4">lulu</option>
+                          <option value="5">Jarvan</option>
+                          <option value="6">Maokai</option>
+                        </select>
+                        <label>Seleccione Heroe</label>
+                        <div></div>
+                      </div>
+                
+                                        
+                    </div>
+
+                    <div class="row">
+                      
+                      <div class="input-field col l3">
+                        <select name="h4" required>
+                          <!-- <option value="" disabledd>Elija heroe: </option> -->
+                          <option value="" disabledd>Elije Héroe: </option>
+                          <option value="0" selected>Gnar</option>
+                          <option value="1">Gragas</option>
+                          <option value="2">Ekko</option>
+                          <option value="3">Vayne</option>
+                          <option value="4">lulu</option>
+                          <option value="5">Jarvan</option>
+                          <option value="6">Maokai</option>
+                        </select>
+                        <label>Seleccione Heroe</label>
+                      </div>
+                      <div></div>
+                    </div>
+
+                    <div class="row">
+                      
+                        <div class="input-field col l3">
+                          <select name="h5" required>
+                            <!-- <option value="" disabledd>Elija heroe: </option> -->
+                            <option value="0" selected>Gnar</option>
+                            <option value="1">Gragas</option>
+                            <option value="2">Ekko</option>
+                            <option value="3">Vayne</option>
+                            <option value="4">lulu</option>
+                            <option value="5">Jarvan</option>
+                            <option value="6">Maokai</option>
+                          </select>
+                          <label>Seleccione Heroe</label>
+                        </div>
+                        <div></div>
+                      </div>
+                      <div class="input-field col l5">
+                          <button class="btn waves-effect waves-light col s3" type="submit" name="submit" >PLAY
+                            <i class="material-icons right">send</i>
+                          </button>
+                      </div>
+
+
+                  </form>
+                  <div v-if="datos_knn">
+                      <!-- Resuelto en : {{datos_knn.time}} milisegundos -->
+                      <div v-if="datos_knn.error">
+                        {{datos_knn.error}}
+                      </div>
+                      <div v-else>
+                        <div class="row">
+                          <div class="col s6">
+                            <table>
+                              <thead>
+                                <tr>
+                                  <!-- <th>Numero</th> -->
+                                  <h4>Equipos</h4>
+                                  <!-- <th>N°</th> -->
+                                </tr>
+                              </thead>
+                              
+                              <tbody>
+                                <tr v-for="partida in datos_knn">
+                                  <!-- <td>{{index}}</td> -->
+                                  <td>{{partida}}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>    
+                  </div>
+                  
+                </div>
+              </div>
+                
+
+                </div>
+              </div>
+        
+              <!--div class="container" >
+                <div  class="progress" v-if="datos_knn.loading">
+                    <div class="indeterminate"></div>
+                </div>
+                <div v-if="datos_knn">
+                  < Resuelto en : {{datos_knn.time}} milisegundos >
+                  <div v-if="datos_knn.error">
+                    {{datos_knn.error}}
+                  </div>
+                  <div v-else>
+                    <div class="row">
+                      <div class="col s6">
+                        <h4>Equipos</h4>
+                        <table>
+                          <thead>
+                            <tr>
+                            
+                              <th>N°</th>
+                            </tr>
+                          </thead>
+                          
+                          <tbody>
+                            <tr v-for="partida in datos_knn">
+                              
+                              <td>{{partida}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>    
+              </div>
+              
+            </div>
+          </div>
+          
+        </div-->
+      </div>
+      <!-- End Tab KNN -->
+      
+    
+      <!-- End Tab ITem -->
+      
+    </div>
+      <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('select');
+      var instances = M.FormSelect.init(elems);
+      
+      var elem = document.querySelector('.tabs');
+      //var options = {}
+      var instance = M.Tabs.init(elem,{});
+    });
+
+    function submitForm(e, form){
+      e.preventDefault();
+      //var formu = form.;
+      //console.log(form.k.value);
+      app.datos_knn = false;
+      app.datos_knn.loading = true;
+      
+      fetch('http://localhost:9080/knn', {
+        method: 'post',
+        body: JSON.stringify({h1: Number(form.h1.value), h2:Number(form.h2.value) , h3: Number(form.h3.value) ,h4:Number(form.h4.value),h5:Number(form.h5.value)})
+      }).then(function(response) {
+        // alert(response);
+        return response.json();
+      }).then(function(data) {
+        console.table(data);
+        //Success code goes here
+        //alert('form submited')
+        app.datos_knn = data; 
+        app.datos_knn.loading = false;
+        console.log(data);
+      }).catch(function(err) {
+        //Failure
+        //alert('Error')
+        console.log("Error: ");
+        console.log(err);
+      });
+    }
+
+    function submitForm2(e, form){
+      e.preventDefault();
+      //var formu = form.;
+      console.log(form.k.value);
+      app.datos_item = false;
+      app.datos_item.loading = true;
+      fetch('http://localhost:9081/item', {
+        method: 'post',
+        body: JSON.stringify({iduser: Number(form.iduser.value), item:Number(form.iditem.value), distancia: Number(form.distancia.value) ,k:Number(form.k.value)})
+      }).then(function(response) {
+        return response.json();
+      }).then(function(data) {
+        //Success code goes here
+        //alert('form submited')
+        app.datos_item = data; 
+        app.datos_knn.loading = false;
+        console.log(data);
+      }).catch(function(err) {
+        //Failure
+        //alert('Error')
+        console.log("Error2: ");
+        console.log(err);
+      });
+    }
+
+    var app = new Vue({
+      el: '#app',
+      data: {
+        datos_knn: false,
+        datos_item: false,
+      }
+    });
+
+  </script>
+
+    <!--JavaScript at end of body for optimized loading-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  </body>
+</html>
+      

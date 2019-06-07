@@ -6,6 +6,21 @@
 #include "recomender.h"
 #include <pthread.h>
 #include "map.h"
+#include <fstream>
+
+#include <pistache/endpoint.h>
+using namespace Pistache;
+
+//RAPIDJSON HEADERS
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+using namespace rapidjson;
+
+
+#include <string>
+using namespace std;
+#include <iostream>
 
 
 int map_n_ratings, map_n_users, map_n_movies;
@@ -31,11 +46,11 @@ thrust::device_vector< RBTree<int, float >* > d_map_users(max_users);
 
 
 float* item_values;
-int *item_row_ind, * item_col_ind;
+int *item_row_ind, *item_col_ind;
 int * ind_items, *item_row_size;
 
 float* d_item_values;
-int *d_item_row_ind, * d_item_col_ind;
+int *d_item_row_ind, *d_item_col_ind;
 int * d_ind_items, *d_item_row_size;
 
 
@@ -59,6 +74,107 @@ vector<int> recomentar_equipo(  vector<int> ids_champions){
   return recomendacion;
 
 }
+
+
+
+
+// void recursive_iterate(const json& j, vector<int> &vec)
+// {
+//     for(auto it = j.begin(); it != j.end(); ++it)
+//     {
+//         if (it->is_structured())
+//         {
+//             vec.push_back(atoi(*j));
+//         }
+//         cout<<"--:"<<*j<<endl;
+       
+//     }
+// }
+
+using namespace Pistache;
+
+class HelloHandler : public Http::Handler {
+public:
+
+    HTTP_PROTOTYPE(HelloHandler)
+
+    void onRequest(const Http::Request& request, Http::ResponseWriter response) override{
+        UNUSED(request);
+        if (request.resource() == "/" && request.method() == Http::Method::Get) {
+            Http::serveFile(response, "index.html");
+            // cout<<"hola"<<endl;
+        }
+        else{
+
+            if (request.resource() == "/knn" && request.method() == Http::Method::Post){
+                    cout<<"heroe"<<endl;
+                    //Copia Contenido a json
+                    int n = request.body().length();
+                    char json[n + 1]; 
+                    strcpy(json, request.body().c_str()); 
+                                
+                    cout << "->" <<json << endl;
+                    Document d;
+                    // int dn = d.GetStringLength();
+                    d.Parse(json);
+                    // cout<<"n: "<<dn<<endl;
+
+                    assert(d.IsObject());
+                    // vector<int> ids_champions(5,0);
+                    vector<int> ids_champions;
+                    for (auto it = 0; it < 5; ++it)
+                    {
+                        string st = "h"+to_string(it+1);
+                        int num = d[st.c_str()].GetInt();
+                        cout<<"num:"<<num<<endl;
+                        if(num != -1)
+                          ids_champions.push_back(num);
+                        st="";
+                        // cout << "key: " << it.key() << ", value:" << it.value() << '\n';
+                    }
+                    cout<<"vec: "<<ids_champions.size()<<endl;
+                    
+
+                    // ids_champions[0]= d["h1"].GetInt();
+                    // ids_champions[1]= d["h2"].GetInt();
+                    // ids_champions[2]= d["h3"].GetInt();
+                    // ids_champions[3]= d["h4"].GetInt();
+                    // ids_champions[4]= d["h5"].GetInt();
+
+                    ifstream file;
+                    vector<string> heroes;
+                    file.open("dataset/champions.csv"); 
+                    string line;
+                    vector<string> st;
+                    while(getline(file,line)){
+                      // cout<<"--\n";
+                      st = split(line,',');
+                      heroes.push_back(st[1]);
+                    }
+                    // cout <<"num: "<<heroes.size()<<endl;
+
+                    // vector<int> ids_champions = {2, 8};
+                    vector<int> recomendacion = recomentar_equipo(ids_champions);
+                    for (size_t i = 0; i < recomendacion.size(); i++) {
+                      cout<<recomendacion[i]<<endl;
+                    }
+
+                    cout<<"jugadores: "<<ids_champions[0]<<ids_champions[3]<<endl;
+                    string salida = "{";
+                    // salida += " \"partidas\":";
+                    for (int i = 0; i<recomendacion.size();i++){
+                      // salida += "\"hero"+to_string(i+1)+"\""+":"+to_string(recomendacion.at(i));
+                      // salida += (i == recomendacion.size()-1)?"}":",";
+                      salida += "\"hero"+to_string(i+1)+"\""+":\""+heroes.at(recomendacion[i]);
+                      salida += (i == recomendacion.size()-1)?"\"}":"\",";
+                    }
+                    cout << "Salida: "<<salida<< endl;        
+                    // string salida("{}");
+                    response.send(Http::Code::Ok, salida, MIME(Application, Json));
+            }
+        }
+    }
+};
 
 
 
@@ -170,25 +286,25 @@ int main(int argc, char const *argv[]) {
 	*/
 
   create_maps_device(d_map_users, d_values, d_row_ind, d_col_ind, d_ind_users, d_row_size, max_users);
+  Pistache::Address addr(Pistache::Ipv4::any(), Pistache::Port(9080));
+  auto opts = Pistache::Http::Endpoint::options().threads(1);
+  Http::Endpoint server(addr);
+  server.init(opts);
+  server.setHandler(Http::make_handler<HelloHandler>());
+  server.serve();
+  server.shutdown();
 
 
+// // Esto es todo lo que se necesita para recomendar
+
+//   vector<int> ids_champions = {2, 8};
 
 
+//   vector<int> recomendacion = recomentar_equipo(ids_champions);
 
-
-
-
-
-// Esto es todo lo que se necesita para recomendar
-
-  vector<int> ids_champions = {2, 8};
-
-
-  vector<int> recomendacion = recomentar_equipo(ids_champions);
-
-  for (size_t i = 0; i < recomendacion.size(); i++) {
-    cout<<recomendacion[i]<<endl;
-  }
+//   for (size_t i = 0; i < recomendacion.size(); i++) {
+//     cout<<recomendacion[i]<<endl;
+//   }
 
 // -----------------------------------------------
 
