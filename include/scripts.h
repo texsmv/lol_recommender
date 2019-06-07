@@ -100,11 +100,11 @@ void n_of_users(string path, int& n_ratings, int& n_users, bool header){
 }
 
 
-void read_ML_ratings(string path, int n_ratings, int n_users, bool header, float*& values, int*& row_ind, int*& col_ind, int*& ind_users, int*& row_size, string version){
+void read_ML_ratings(string path, int n_ratings, int n_users, int max_users, bool header, float*& values, int*& row_ind, int*& col_ind, int*& ind_users, int*& row_size, string version){
   cout<<"Lectura de users"<<endl;
 
   string path_b = "binarios/";
-  int max_users = 300000;
+  // int max_users = 300000;
   values = new float[n_ratings]; //ratings
   row_ind = new int[n_ratings]; //id_users
   col_ind = new int[n_ratings]; //id_items
@@ -384,6 +384,48 @@ __global__ void test_maps(RBTree<int, float >** dp, float* d_test, int* d_row_si
 }
 
 
+__global__ void create_map_and_fill(RBTree<int, float >** dp, int* d_ids_champions, int n){
+  int i = blockIdx.x * blockDim.x + threadIdx.x;
+  if(i < 1){
+    dp[0] = new RBTree<int, float>();
+    for (size_t it = 0; it < n; it++) {
+      dp[0]->insert(d_ids_champions[it], 1);
+    }
+  }
+}
+
+__global__ void delete_map(RBTree<int, float >** dp){
+  int i = blockIdx.x * blockDim.x + threadIdx.x;
+  if(i < 1){
+    delete(dp[0]);
+  }
+}
+
+void delete_map_cuda(RBTree<int, float>**& d_n_map){
+
+  float block_size = 256;
+  dim3 block =  dim3(block_size, 1, 1);
+  dim3 grid =  dim3(ceil(1 / block_size), 1);
+
+  delete_map<<<grid, block>>>(d_n_map);
+  CHECK(cudaDeviceSynchronize());
+  cudaFree(d_n_map);
+}
+
+
+void create_map_cuda(std::vector<int> ids_champions, RBTree<int, float>**& d_n_map){
+  d_n_map = cuda_array<RBTree<int, float>* >(1);
+
+  float block_size = 256;
+  dim3 block =  dim3(block_size, 1, 1);
+  dim3 grid =  dim3(ceil(1 / block_size), 1);
+
+  int n = ids_champions.size();
+  int* d_ids_champions = cuda_array<int>(n);
+  cuda_H2D<int>(ids_champions.data(), d_ids_champions, n);
+  create_map_and_fill<<<grid, block>>>(d_n_map, d_ids_champions, n);
+  CHECK(cudaDeviceSynchronize());
+}
 
 
 
