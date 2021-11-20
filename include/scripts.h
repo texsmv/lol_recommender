@@ -171,6 +171,8 @@ void read_ML_ratings(string path, int n_ratings, int n_users, int max_users, boo
     // row_size[n_users - 1] = n_r;
     row_size[curr_id_user] = n_r;
 
+    cout<<path_b + "values_" + version<<endl;
+
     cout<<"Writing values"<<endl;
     write_array<float>(values, n_ratings, path_b + "values_" + version);
     cout<<"Writing row_ind"<<endl;

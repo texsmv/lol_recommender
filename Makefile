@@ -1,5 +1,5 @@
 CXX		  := nvcc
-CXX_FLAGS := -std=c++11
+CXX_FLAGS := -std=c++17
 
 BIN		:= bin
 SRC		:= src

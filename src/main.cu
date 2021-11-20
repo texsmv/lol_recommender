@@ -99,7 +99,7 @@ public:
     HTTP_PROTOTYPE(HelloHandler)
 
     void onRequest(const Http::Request& request, Http::ResponseWriter response) override{
-        UNUSED(request);
+        // UNUSED(request);
         if (request.resource() == "/" && request.method() == Http::Method::Get) {
             Http::serveFile(response, "index.html");
             // cout<<"hola"<<endl;
@@ -293,38 +293,6 @@ int main(int argc, char const *argv[]) {
   server.setHandler(Http::make_handler<HelloHandler>());
   server.serve();
   server.shutdown();
-
-
-// // Esto es todo lo que se necesita para recomendar
-
-//   vector<int> ids_champions = {2, 8};
-
-
-//   vector<int> recomendacion = recomentar_equipo(ids_champions);
-
-//   for (size_t i = 0; i < recomendacion.size(); i++) {
-//     cout<<recomendacion[i]<<endl;
-//   }
-
-// -----------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
